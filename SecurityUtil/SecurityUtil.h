@@ -20,8 +20,10 @@
 #pragma mark - AES加密
 //将string转成带密码的data
 + (NSString *)encryptAESString:(NSString *)string Key:(NSString *)key;
++ (NSString *)encryptAES256String:(NSString *)string Key:(NSString *)key;
 //将带密码的data转成string
 + (NSString *)decryptAESString:(NSString *)string Key:(NSString *)key;
++ (NSString *)decryptAES256String:(NSString *)string Key:(NSString *)key;
 
 + (NSData *)encryptAESData:(NSData *)data Key:(NSString *)key;
 + (NSData *)decryptAESData:(NSData *)data Key:(NSString *)key;

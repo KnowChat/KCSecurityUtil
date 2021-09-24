@@ -45,8 +45,7 @@
 
 #pragma mark - AES加密
 //将string转成带密码的data
-+(NSString*)encryptAESString:(NSString*)string Key:(NSString*)key
-{
++ (NSString *)encryptAESString:(NSString *)string Key:(NSString *)key {
     //将nsstring转化为nsdata
     NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
     //使用密码对nsdata进行加密
@@ -55,14 +54,37 @@
     return [self encodeBase64Data:encryptedData];
 }
 
+//将string转成带密码的data
++(NSString *)encryptAES256String:(NSString *)string Key:(NSString *)key {
+    //将nsstring转化为nsdata
+    NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
+    //使用密码对nsdata进行加密
+    NSData *encryptedData = [data AES256EncryptWithKey:key gIv:Iv];
+    //返回进行base64进行转码的加密字符串
+    return [self encodeBase64Data:encryptedData];
+}
+
 #pragma mark - AES解密
 //将带密码的data转成string
-+(NSString*)decryptAESString:(NSString *)string Key:(NSString*)key
-{
++ (NSString *)decryptAESString:(NSString *)string Key:(NSString *)key {
     //base64解密
     NSData *decodeBase64Data=[GTMBase64 decodeString:string];
     //使用密码对data进行解密
     NSData *decryData = [decodeBase64Data AES128DecryptWithKey:key gIv:Iv];
+    
+    //    NSData* xmlData = [string dataUsingEncoding:NSUTF8StringEncoding];
+    //    NSData *decryData = [xmlData AES128DecryptWithKey:KEY gIv:Iv];
+    
+    //将解了密码的nsdata转化为nsstring
+    NSString *str = [[NSString alloc] initWithData:decryData encoding:NSUTF8StringEncoding];
+    return str;
+}
+
++ (NSString *)decryptAES256String:(NSString *)string Key:(NSString *)key {
+    //base64解密
+    NSData *decodeBase64Data=[GTMBase64 decodeString:string];
+    //使用密码对data进行解密
+    NSData *decryData = [decodeBase64Data AES256DecryptWithKey:key gIv:Iv];
     
     //    NSData* xmlData = [string dataUsingEncoding:NSUTF8StringEncoding];
     //    NSData *decryData = [xmlData AES128DecryptWithKey:KEY gIv:Iv];
